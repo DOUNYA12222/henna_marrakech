@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://henna-marrakech.com/sitemap.xml

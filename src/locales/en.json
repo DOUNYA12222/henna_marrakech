@@ -1,0 +1,72 @@
+{
+  "metaTitle": "Henna Marrakech | henna_marrakech - Luxury Moroccan Henna Artist",
+  "metaDescription": "Book henna_marrakech, a premium Moroccan henna artist in Marrakech. Bridal henna, hand henna, feet henna and modern designs in Riad Laârous near Bab Doukkala.",
+  "metaKeywords": "Henna Marrakech, Henne Marrakech, Henné Marrakech, Henne Artist Marrakech, Henna Artist Marrakech, Moroccan Henna, Henna Bab Doukkala, Henna Riad Larouss, Bridal Henna Marrakech, Best Henna Marrakech, Luxury Henna Marrakech, Moroccan henna artist",
+  "whatsappMessage": "Hello Dounya, I would like to book a henna appointment at Riad Laârous. Could you please share your availability?",
+  "nav": { "home": "Home", "gallery": "Designs", "pricing": "Pricing", "testimonials": "Reviews", "contact": "Contact" },
+  "hero": {
+    "eyebrow": "Premium Moroccan henna art",
+    "title": "henna_marrakech",
+    "subtitle": "An elegant henna experience in Riad Laârous, created for brides, travelers and lovers of Marrakech beauty.",
+    "book": "Book on WhatsApp",
+    "view": "View Henna Designs",
+    "badge": "Marrakech | Riad Laârous"
+  },
+  "showcase": { "title": "Choose your design", "petite": "Petite design", "medium": "Medium design", "grande": "Grande design", "feet": "Feet henna", "previous": "Previous design", "next": "Next design" },
+  "designChoice": { "eyebrow": "Your style", "title": "Choose or suggest your own design", "copy": "Select a style or send your own inspiration directly through WhatsApp.", "custom": "My own design", "customLabel": "Describe your design or say you will send a photo", "placeholder": "Example: a fine floral motif on both hands...", "selected": "Your choice", "messageLabel": "Selected design", "send": "Send my choice" },
+  "sections": {
+    "galleryEyebrow": "Inspired gallery",
+    "galleryTitle": "Henna designs for every moment",
+    "galleryCopy": "A flowing selection of Moroccan, bridal, modern, hand and feet henna styles with a premium visual presentation.",
+    "pricingEyebrow": "Clear pricing",
+    "pricingTitle": "Choose your henna ritual",
+    "testimonialsEyebrow": "Happy clients",
+    "testimonialsTitle": "Loved by travelers, locals and brides",
+    "socialEyebrow": "Social media",
+    "socialTitle": "Follow the daily work",
+    "contactEyebrow": "Booking",
+    "contactTitle": "Contact Dounya",
+    "contactCopy": "Send your request, dates or design ideas. Fast response on WhatsApp."
+  },
+  "seoLocal": {
+    "eyebrow": "Henna Marrakech",
+    "title": "Premium henna artist in Riad Laârous",
+    "copy": "henna_marrakech welcomes local clients, travelers and brides for an elegant Moroccan henna experience in Marrakech near Bab Doukkala. Every design is prepared for your selected style: bridal henna, hand henna, feet henna, modern motifs or traditional Moroccan patterns.",
+    "points": ["Fast booking on WhatsApp", "Location: Riad Laârous, Bab Doukkala", "Moroccan, luxury and bridal henna designs"]
+  },
+  "gallery": { "all": "All", "bridal": "Bridal", "hands": "Hands", "feet": "Feet", "modern": "Modern", "moroccan": "Moroccan", "luxury": "Luxury" },
+  "pricing": [
+    { "name": "Petite Henna", "price": "50 DHS", "desc": "Delicate design for hand, wrist or a minimal detail." },
+    { "name": "Medium Henna", "price": "80-120 DHS", "desc": "A fuller motif for travel, events or a special evening." },
+    { "name": "Grande Henna", "price": "120-200 DHS", "desc": "Rich composition for bridal, photo sessions or a premium experience." }
+  ],
+  "testimonials": [
+    { "name": "Camille, Paris", "role": "Tourist", "text": "The design was fine, elegant and beautifully Moroccan. A soft and very professional moment." },
+    { "name": "Sara, Marrakech", "role": "Local client", "text": "Dounya works with precision. The color was beautiful and the motif received so many compliments." },
+    { "name": "Amina, Brussels", "role": "Bride", "text": "A true wedding experience. Luxurious, calm and exactly how I imagined it." }
+  ],
+  "reviewForm": {
+    "name": "Your name",
+    "rating": "Your rating",
+    "stars": "stars",
+    "comment": "Your review",
+    "placeholder": "Share your henna experience...",
+    "image": "Add a photo",
+    "imageHint": "Optional",
+    "imageReady": "Photo added",
+    "imageError": "This image could not be added.",
+    "submit": "Publish my review",
+    "sending": "Publishing...",
+    "success": "Thank you, your review is published.",
+    "deleted": "Review deleted.",
+    "error": "Could not publish the review right now.",
+    "delete": "Delete review",
+    "deleteError": "Could not delete this review.",
+    "adminPrompt": "Owner code to delete this review",
+    "empty": "Real client reviews will appear here after publication.",
+    "trap": "Leave this field empty"
+  },
+  "contact": { "name": "Name", "email": "Email", "phone": "Phone", "message": "Your message", "send": "Send", "success": "Message sent successfully.", "setup": "Email delivery still needs to be activated by the owner.", "error": "Could not send the message right now.", "trap": "Leave this field empty" },
+  "social": { "instagram": "Follow on Instagram", "tiktok": "Follow on TikTok", "whatsapp": "Book on WhatsApp" },
+  "footer": { "quick": "Quick links", "rights": "All rights reserved.", "location": "Riad Laârous, Marrakech, Morocco" }
+}
