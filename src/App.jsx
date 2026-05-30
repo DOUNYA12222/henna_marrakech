@@ -46,8 +46,12 @@ const defaultSiteSettings = {
     label: "Riad Laârous, Bab Doukkala, Marrakech, Morocco",
     mapQuery: "Riad Laârous, Bab Doukkala, Marrakech, Morocco"
   },
-  pricing: [],
-  gallery: []
+  pricing: [
+    { name: "Petite Henna", price: "50 DHS", desc: "Design delicat pour main, poignet ou detail minimal." },
+    { name: "Medium Henna", price: "80-120 DHS", desc: "Motif plus complet, ideal pour sorties, voyage ou occasion speciale." },
+    { name: "Grande Henna", price: "120-200 DHS", desc: "Composition riche pour bridal, shooting ou experience premium." }
+  ],
+  gallery: galleryItems
 };
 const showcaseAssets = [
   { id: "petite", src: "/assets/services/petite-character.webp" },
@@ -60,8 +64,8 @@ function mergeSiteSettings(settings = {}) {
   return {
     socials: { ...defaultSiteSettings.socials, ...(settings.socials || {}) },
     location: { ...defaultSiteSettings.location, ...(settings.location || {}) },
-    pricing: Array.isArray(settings.pricing) && settings.pricing.length ? settings.pricing : [],
-    gallery: Array.isArray(settings.gallery) && settings.gallery.length ? settings.gallery : []
+    pricing: Array.isArray(settings.pricing) && settings.pricing.length ? settings.pricing : defaultSiteSettings.pricing,
+    gallery: Array.isArray(settings.gallery) && settings.gallery.length ? settings.gallery : defaultSiteSettings.gallery
   };
 }
 

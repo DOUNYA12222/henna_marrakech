@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { allowSubmission, getClientIp, sendContactEmail, validateContact } from "../server/contactService.js";
+import { readSiteSettings } from "../server/siteSettingsService.js";
 
 export default async function handler(request, response) {
   if (request.method !== "POST") {
@@ -19,7 +20,8 @@ export default async function handler(request, response) {
   }
 
   try {
-    await sendContactEmail(payload);
+    const settings = await readSiteSettings();
+    await sendContactEmail({ ...payload, mailTo: settings.socials.email });
     return response.status(200).json({ ok: true });
   } catch (error) {
     return response.status(error.status || 500).json({ ok: false, message: "Email could not be sent." });
