@@ -411,20 +411,20 @@ function Navbar({ t, lang, setLang }) {
       </nav>
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-night/95 p-5 backdrop-blur-xl lg:hidden">
-            <div className="flex items-center justify-between">
-              <span className="font-display text-xl font-bold">henna_marrakech</span>
-              <button className="dynamic-button grid h-10 w-10 place-items-center rounded-full border border-cream/15" onClick={() => setOpen(false)} aria-label="Close menu">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] overflow-y-auto bg-[#17110A] p-5 text-cream shadow-2xl lg:hidden">
+            <div className="flex items-center justify-between border-b border-cream/10 pb-4">
+              <span className="font-display text-2xl font-bold">henna_<span className="text-gold">marrakech</span></span>
+              <button className="dynamic-button grid h-11 w-11 place-items-center rounded-full border border-cream/15 bg-night" onClick={() => setOpen(false)} aria-label="Close menu">
                 <X size={20} />
               </button>
             </div>
-            <div className="mt-12 grid gap-5">
+            <div className="mt-8 grid gap-3 rounded-3xl border border-cream/10 bg-cream/[0.04] p-4">
               {links.map(([id, label]) => (
-                <a key={id} href={`#${id}`} onClick={(event) => navigate(event, id)} className={`border-b border-cream/10 pb-4 text-2xl font-semibold transition ${activeSection === id ? "text-gold" : ""}`}>
+                <a key={id} href={`#${id}`} onClick={(event) => navigate(event, id)} className={`rounded-2xl border border-cream/10 bg-night/55 px-4 py-3 text-xl font-semibold transition ${activeSection === id ? "border-gold/50 text-gold" : "text-cream"}`}>
                   {label}
                 </a>
               ))}
-              <div className="mt-4 flex gap-2">
+              <div className="mt-3 flex gap-2">
                 {Object.keys(locales).map((code) => (
                   <button key={code} onClick={() => { setLang(code); setOpen(false); }} className={`dynamic-button h-10 rounded-full px-4 text-sm font-bold ${lang === code ? "bg-gold text-cream" : "border border-cream/15"}`}>
                     {languageLabels[code]}
@@ -556,10 +556,10 @@ function Hero({ t, settings }) {
   };
 
   return (
-    <section id="home" className="relative min-h-[86vh] overflow-hidden bg-night px-4 pb-20 pt-28 text-cream md:px-8 md:pt-36">
+    <section id="home" className="relative min-h-[72vh] overflow-hidden bg-night px-4 pb-10 pt-24 text-cream md:min-h-[86vh] md:px-8 md:pb-20 md:pt-36">
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover object-center"
         src="/assets/video/henna-luxury-home.mp4"
         autoPlay
         muted
@@ -575,32 +575,32 @@ function Hero({ t, settings }) {
       <button
         type="button"
         onClick={toggleSound}
-        className="dynamic-button absolute left-4 top-20 z-30 inline-flex items-center gap-2 rounded-full border border-cream/20 bg-night/65 px-4 py-2 text-sm font-bold text-cream shadow-soft backdrop-blur-xl md:left-8 md:top-24"
+        className="dynamic-button absolute right-4 top-16 z-30 inline-flex items-center gap-2 rounded-full border border-cream/20 bg-night/75 px-3 py-2 text-xs font-bold text-cream shadow-soft backdrop-blur-xl md:left-8 md:right-auto md:top-24 md:px-4 md:text-sm"
         aria-label={soundOn ? "Mute video" : "Activate video sound"}
       >
         {soundOn ? <Volume2 size={17} /> : <VolumeX size={17} />}
         {soundOn ? "Sound On" : "Sound"}
       </button>
-      <div className="relative z-10 mx-auto flex min-h-[58vh] max-w-7xl items-center justify-center">
+      <div className="relative z-10 mx-auto flex min-h-[46vh] max-w-7xl items-center justify-center md:min-h-[58vh]">
         <motion.div initial="hidden" animate="visible" variants={reveal} className="mx-auto max-w-4xl text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cream/25 bg-night/35 px-4 py-2 text-sm text-cream shadow-soft backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cream/25 bg-night/50 px-3 py-2 text-xs text-cream shadow-soft backdrop-blur-md md:mb-5 md:px-4 md:text-sm">
             <Gem size={16} />
             {t.hero.eyebrow}
           </div>
-          <h1 dir="ltr" className="font-display text-[2rem] font-extrabold leading-[.98] tracking-normal min-[380px]:text-4xl sm:text-6xl lg:text-8xl">
+          <h1 dir="ltr" className="font-display text-[2.05rem] font-extrabold leading-[.98] tracking-normal min-[380px]:text-[2.55rem] sm:text-6xl lg:text-8xl">
             <span className="video-gold-text">{t.hero.title}</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-cream md:text-lg">{t.hero.subtitle}</p>
-          <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3.8, repeat: Infinity }} className="mt-5 inline-flex rounded-full border border-cream/25 bg-night/35 px-5 py-2.5 text-sm font-semibold text-cream backdrop-blur-md">
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-medium leading-6 text-cream md:mt-5 md:text-lg md:leading-7">{t.hero.subtitle}</p>
+          <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3.8, repeat: Infinity }} className="mt-4 inline-flex rounded-full border border-cream/25 bg-night/50 px-4 py-2 text-xs font-semibold text-cream backdrop-blur-md md:mt-5 md:px-5 md:py-2.5 md:text-sm">
             {t.hero.badge}
           </motion.div>
-          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-            <a href={whatsappUrl(t, settings)} target="_blank" rel="noreferrer" className="dynamic-button group inline-flex items-center justify-center gap-3 rounded-full bg-gold px-7 py-4 font-bold text-cream shadow-glow">
+          <div className="mx-auto mt-6 flex max-w-[22rem] flex-col justify-center gap-3 sm:max-w-none sm:flex-row md:mt-7">
+            <a href={whatsappUrl(t, settings)} target="_blank" rel="noreferrer" className="dynamic-button group inline-flex items-center justify-center gap-3 rounded-full bg-gold px-5 py-3.5 text-sm font-bold text-cream shadow-glow md:px-7 md:py-4 md:text-base">
               <MessageCircle size={20} />
               {t.hero.book}
               <ArrowUpRight className="transition group-hover:translate-x-1 group-hover:-translate-y-1" size={18} />
             </a>
-            <a href="#design-choice" className="dynamic-button inline-flex items-center justify-center gap-3 rounded-full border border-night/15 bg-white/50 px-7 py-4 font-bold text-night backdrop-blur-xl hover:border-gold/70 hover:text-gold">
+            <a href="#design-choice" className="dynamic-button inline-flex items-center justify-center gap-3 rounded-full border border-night/15 bg-white/60 px-5 py-3.5 text-sm font-bold text-night backdrop-blur-xl hover:border-gold/70 hover:text-gold md:px-7 md:py-4 md:text-base">
               <Camera size={20} />
               {t.hero.view}
             </a>
