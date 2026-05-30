@@ -411,27 +411,52 @@ function Navbar({ t, lang, setLang }) {
       </nav>
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] overflow-y-auto bg-[#17110A] p-5 text-cream shadow-2xl lg:hidden">
-            <div className="flex items-center justify-between border-b border-cream/10 pb-4">
+          <motion.div
+            initial={{ opacity: 0, y: -14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            className="fixed inset-0 z-[70] overflow-y-auto bg-[#06111A] px-8 pb-28 pt-7 text-cream shadow-2xl lg:hidden"
+          >
+            <div className="flex items-center justify-between">
               <span className="font-display text-2xl font-bold">henna_<span className="text-gold">marrakech</span></span>
-              <button className="dynamic-button grid h-11 w-11 place-items-center rounded-full border border-cream/15 bg-night" onClick={() => setOpen(false)} aria-label="Close menu">
+              <button className="dynamic-button grid h-11 w-11 place-items-center rounded-full border border-gold/30 bg-night/70 text-gold" onClick={() => setOpen(false)} aria-label="Close menu">
                 <X size={20} />
               </button>
             </div>
-            <div className="mt-8 grid gap-3 rounded-3xl border border-cream/10 bg-cream/[0.04] p-4">
+            <div className="mt-10 grid gap-4">
               {links.map(([id, label]) => (
-                <a key={id} href={`#${id}`} onClick={(event) => navigate(event, id)} className={`rounded-2xl border border-cream/10 bg-night/55 px-4 py-3 text-xl font-semibold transition ${activeSection === id ? "border-gold/50 text-gold" : "text-cream"}`}>
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  onClick={(event) => navigate(event, id)}
+                  className={`font-display text-4xl font-bold leading-tight tracking-normal transition ${activeSection === id ? "text-gold" : "text-[#AC9D80]"}`}
+                >
                   {label}
                 </a>
               ))}
-              <div className="mt-3 flex gap-2">
-                {Object.keys(locales).map((code) => (
-                  <button key={code} onClick={() => { setLang(code); setOpen(false); }} className={`dynamic-button h-10 rounded-full px-4 text-sm font-bold ${lang === code ? "bg-gold text-cream" : "border border-cream/15"}`}>
-                    {languageLabels[code]}
-                  </button>
-                ))}
+              <div className="mt-8 border-t border-gold/20 pt-6">
+                <p className="text-lg font-bold text-gold">Riad Laârous</p>
+                <p className="mt-3 text-base font-semibold text-cream/80">Bab Doukkala, Marrakech</p>
+              </div>
+              <div className="mt-3">
+                <p className="text-lg font-bold text-gold">Langue</p>
+                <div className="mt-4 flex gap-2">
+                  {Object.keys(locales).map((code) => (
+                    <button key={code} onClick={() => { setLang(code); setOpen(false); }} className={`dynamic-button h-10 rounded-full px-4 text-sm font-bold ${lang === code ? "bg-gold text-cream" : "border border-gold/25 text-cream"}`}>
+                      {languageLabels[code]}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="dynamic-button fixed bottom-6 left-1/2 z-[75] inline-flex -translate-x-1/2 items-center overflow-hidden rounded-full border border-gold/50 bg-night text-cream shadow-glow"
+            >
+              <span className="grid h-16 w-16 place-items-center rounded-full bg-gold text-night"><X size={24} /></span>
+              <span className="px-7 text-lg font-bold">Menu</span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -572,17 +597,17 @@ function Hero({ t, settings }) {
       <div className="absolute inset-0 bg-night/18" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_34%,rgba(23,17,10,.18))]" />
       <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#17110A]/80 to-transparent" />
-      <button
-        type="button"
-        onClick={toggleSound}
-        className="dynamic-button absolute right-4 top-16 z-30 inline-flex items-center gap-2 rounded-full border border-cream/20 bg-night/75 px-3 py-2 text-xs font-bold text-cream shadow-soft backdrop-blur-xl md:left-8 md:right-auto md:top-24 md:px-4 md:text-sm"
-        aria-label={soundOn ? "Mute video" : "Activate video sound"}
-      >
-        {soundOn ? <Volume2 size={17} /> : <VolumeX size={17} />}
-        {soundOn ? "Sound On" : "Sound"}
-      </button>
       <div className="relative z-10 mx-auto flex min-h-[46vh] max-w-7xl items-center justify-center md:min-h-[58vh]">
         <motion.div initial="hidden" animate="visible" variants={reveal} className="mx-auto max-w-4xl text-center">
+          <button
+            type="button"
+            onClick={toggleSound}
+            className="dynamic-button mb-3 inline-flex items-center gap-2 rounded-full border border-cream/20 bg-night/75 px-3 py-2 text-xs font-bold text-cream shadow-soft backdrop-blur-xl md:px-4 md:text-sm"
+            aria-label={soundOn ? "Mute video" : "Activate video sound"}
+          >
+            {soundOn ? <Volume2 size={17} /> : <VolumeX size={17} />}
+            {soundOn ? "Sound On" : "Sound"}
+          </button>
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cream/25 bg-night/50 px-3 py-2 text-xs text-cream shadow-soft backdrop-blur-md md:mb-5 md:px-4 md:text-sm">
             <Gem size={16} />
             {t.hero.eyebrow}
