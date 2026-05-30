@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { timingSafeEqual } from "node:crypto";
 import path from "node:path";
 import { galleryItems } from "../src/data/gallery.js";
+import { hasSupabase, readSetting, upsertSetting } from "./supabaseRest.js";
 
 const storageDirectory = path.join(process.cwd(), "server", "storage");
 const storageFile = path.join(storageDirectory, "site-settings.json");
@@ -29,6 +30,11 @@ const defaultSettings = {
 };
 
 export async function readSiteSettings() {
+  if (hasSupabase()) {
+    const stored = await readSetting("site_settings");
+    if (stored) return mergeSettings(stored);
+  }
+
   try {
     const stored = JSON.parse(await readFile(storageFile, "utf8"));
     return mergeSettings(stored);
@@ -41,6 +47,10 @@ export async function readSiteSettings() {
 export async function writeSiteSettings(settings, adminCode) {
   if (!isAdmin(adminCode)) return { ok: false, status: 403 };
   const nextSettings = sanitizeSettings(settings);
+  if (hasSupabase()) {
+    const saved = await upsertSetting("site_settings", nextSettings);
+    if (saved) return { ok: true, settings: nextSettings };
+  }
   await mkdir(storageDirectory, { recursive: true });
   await writeFile(storageFile, JSON.stringify(nextSettings, null, 2), "utf8");
   return { ok: true, settings: nextSettings };

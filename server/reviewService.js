@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
 import path from "node:path";
+import { deleteStoredReview, hasSupabase, insertStoredReview, listStoredReviews } from "./supabaseRest.js";
 
 const storageDirectory = path.join(process.cwd(), "server", "storage");
 const storageFile = path.join(storageDirectory, "reviews.json");
@@ -45,7 +46,11 @@ export async function addReview(payload) {
     createdAt: new Date().toISOString()
   };
   reviews.unshift(review);
-  await writeReviews(reviews.slice(0, 100));
+  if (hasSupabase()) {
+    await insertStoredReview(review);
+  } else {
+    await writeReviews(reviews.slice(0, 100));
+  }
   return { ...publicReview(review), deleteKey };
 }
 
@@ -60,11 +65,20 @@ export async function deleteReview(id, credential = {}) {
 
   if (!canAdminDelete && !canClientDelete) return { ok: false, status: 403 };
 
-  await writeReviews(reviews.filter((item) => item.id !== id));
+  if (hasSupabase()) {
+    await deleteStoredReview(id);
+  } else {
+    await writeReviews(reviews.filter((item) => item.id !== id));
+  }
   return { ok: true };
 }
 
 async function readReviews() {
+  if (hasSupabase()) {
+    const stored = await listStoredReviews();
+    if (stored) return stored;
+  }
+
   try {
     return JSON.parse(await readFile(storageFile, "utf8"));
   } catch (error) {
