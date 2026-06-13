@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://henna-marrakech.com/sitemap.xml
+Sitemap: https://henna-marrakech.vercel.app/sitemap.xml

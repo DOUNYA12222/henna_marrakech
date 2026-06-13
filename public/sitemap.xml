@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://henna-marrakech.com/</loc>
+    <loc>https://henna-marrakech.vercel.app/</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://henna-marrakech.com/assets/gallery/bridal-henna-2.jpg</image:loc>
+      <image:loc>https://henna-marrakech.vercel.app/assets/gallery/bridal-henna-2.jpg</image:loc>
       <image:title>Bridal Henna Marrakech by henna_marrakech</image:title>
       <image:caption>Luxury Moroccan bridal henna design in Marrakech</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://henna-marrakech.com/assets/gallery/bridal-henna-3.jpg</image:loc>
+      <image:loc>https://henna-marrakech.vercel.app/assets/gallery/bridal-henna-3.jpg</image:loc>
       <image:title>Luxury Bridal Henna Marrakech</image:title>
       <image:caption>Premium bridal henna for brides in Riad Laârous Marrakech</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://henna-marrakech.com/assets/gallery/feet-henna-1.jpg</image:loc>
+      <image:loc>https://henna-marrakech.vercel.app/assets/gallery/feet-henna-1.jpg</image:loc>
       <image:title>Feet Henna Marrakech</image:title>
       <image:caption>Elegant Moroccan feet henna design</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://henna-marrakech.com/assets/gallery/hand-henna-2.jpg</image:loc>
+      <image:loc>https://henna-marrakech.vercel.app/assets/gallery/hand-henna-2.jpg</image:loc>
       <image:title>Hand Henna Marrakech</image:title>
       <image:caption>Fine hand henna design by henna_marrakech</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://henna-marrakech.com/assets/gallery/modern-henna-2.jpg</image:loc>
+      <image:loc>https://henna-marrakech.vercel.app/assets/gallery/modern-henna-2.jpg</image:loc>
       <image:title>Modern Henna Marrakech</image:title>
       <image:caption>Modern floral Moroccan henna design</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://henna-marrakech.com/assets/gallery/luxury-henna-3.jpg</image:loc>
+      <image:loc>https://henna-marrakech.vercel.app/assets/gallery/luxury-henna-3.jpg</image:loc>
       <image:title>Luxury Henna Marrakech</image:title>
       <image:caption>Luxury henna design for premium beauty appointments</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://henna-marrakech.com/assets/gallery/moroccan-henna-3.jpg</image:loc>
+      <image:loc>https://henna-marrakech.vercel.app/assets/gallery/moroccan-henna-3.jpg</image:loc>
       <image:title>Moroccan Henna Marrakech</image:title>
       <image:caption>Traditional Moroccan henna style in Marrakech</image:caption>
     </image:image>
