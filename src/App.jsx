@@ -837,6 +837,7 @@ function Pricing({ t, settings, lang }) {
 function Testimonials({ t }) {
   const [reviews, setReviews] = useState([]);
   const [status, setStatus] = useState("idle");
+  const [statusMessage, setStatusMessage] = useState("");
   const [form, setForm] = useState({ name: "", comment: "", rating: 5, image: "", company: "" });
   const [ownedReviews, setOwnedReviews] = useState(readOwnedReviews);
 
@@ -858,14 +859,17 @@ function Testimonials({ t }) {
   const submitReview = async (event) => {
     event.preventDefault();
     setStatus("loading");
+    setStatusMessage("");
     try {
       const response = await fetch(apiEndpoint("/api/reviews"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
       });
-      if (!response.ok) throw new Error("Review failed");
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.errors?.join(" ") || data.message || t.reviewForm.error);
+      }
       if (data.review?.id && data.review?.deleteKey) {
         const nextOwnedReviews = { ...ownedReviews, [data.review.id]: data.review.deleteKey };
         localStorage.setItem("henna-owned-reviews", JSON.stringify(nextOwnedReviews));
@@ -874,7 +878,8 @@ function Testimonials({ t }) {
       setReviews((items) => [data.review, ...items]);
       setForm({ name: "", comment: "", rating: 5, image: "", company: "" });
       setStatus("success");
-    } catch {
+    } catch (error) {
+      setStatusMessage(error.message || t.reviewForm.error);
       setStatus("error");
     }
   };
@@ -927,7 +932,7 @@ function Testimonials({ t }) {
         <motion.form onSubmit={submitReview} variants={reveal} initial="hidden" whileInView="visible" viewport={{ once: true }} className="luxury-cream-card rounded-lg border border-night/10 p-6 backdrop-blur-xl">
           <label className="sr-only" htmlFor="review-company">{t.reviewForm.trap}</label>
           <input id="review-company" value={form.company} onChange={(event) => setForm({ ...form, company: event.target.value })} className="hidden" tabIndex="-1" autoComplete="off" />
-          <Field label={t.reviewForm.name} value={form.name} onChange={(value) => setForm({ ...form, name: value })} required />
+          <Field label={t.reviewForm.name} value={form.name} onChange={(value) => setForm({ ...form, name: value })} />
           <label className="mt-4 block">
             <span className="mb-2 block text-sm font-bold text-night/75">{t.reviewForm.rating}</span>
             <div className="flex gap-2">
@@ -961,7 +966,7 @@ function Testimonials({ t }) {
           <AnimatePresence>
             {status === "success" && <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 rounded-lg bg-emerald-500/15 p-3 text-emerald-700">{t.reviewForm.success}</motion.p>}
             {status === "deleted" && <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 rounded-lg bg-emerald-500/15 p-3 text-emerald-700">{t.reviewForm.deleted}</motion.p>}
-            {status === "error" && <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 rounded-lg bg-red-500/15 p-3 text-red-700">{t.reviewForm.error}</motion.p>}
+            {status === "error" && <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 rounded-lg bg-red-500/15 p-3 text-red-700">{statusMessage || t.reviewForm.error}</motion.p>}
             {status === "deleteError" && <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 rounded-lg bg-red-500/15 p-3 text-red-700">{t.reviewForm.deleteError}</motion.p>}
             {status === "imageError" && <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 rounded-lg bg-red-500/15 p-3 text-red-700">{t.reviewForm.imageError}</motion.p>}
           </AnimatePresence>

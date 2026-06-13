@@ -10,7 +10,7 @@ const reviewSubmissions = new Map();
 export function validateReview(payload = {}) {
   const errors = [];
   if (payload.company) errors.push("Spam detected");
-  if (!payload.name || payload.name.trim().length < 2 || payload.name.trim().length > 50) errors.push("Valid name is required");
+  if (payload.name && (payload.name.trim().length < 2 || payload.name.trim().length > 50)) errors.push("Valid name is required");
   if (!payload.comment || payload.comment.trim().length < 10 || payload.comment.trim().length > 500) errors.push("Review must be between 10 and 500 characters");
   if (!Number.isInteger(payload.rating) || payload.rating < 1 || payload.rating > 5) errors.push("Rating must be between 1 and 5");
   if (payload.image && (!/^data:image\/(jpeg|png|webp);base64,/.test(payload.image) || payload.image.length > 480000)) errors.push("Image is invalid or too large");
@@ -38,7 +38,7 @@ export async function addReview(payload) {
   const deleteKey = randomBytes(24).toString("hex");
   const review = {
     id: randomUUID(),
-    name: payload.name.trim(),
+    name: payload.name?.trim() || "Client",
     comment: payload.comment.trim(),
     rating: payload.rating,
     image: payload.image || "",
