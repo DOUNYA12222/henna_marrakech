@@ -1229,16 +1229,17 @@ function AdminPanel({ settings, setSettings }) {
   const deleteReviewAsAdmin = async (id) => {
     setStatus("Deleting...");
     try {
-      const response = await fetch(apiEndpoint("/api/reviews"), {
+      const response = await fetch(apiEndpoint("/api/admin/reviews"), {
         method: "DELETE",
-        headers: { "Content-Type": "application/json", "x-admin-code": adminCode },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, adminCode })
       });
-      if (!response.ok) throw new Error("delete failed");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.message || "delete failed");
       loadReviews();
       setStatus("Commentaire tmseh.");
-    } catch {
-      setStatus("Ma tmsahch. T2ekdi mn code.");
+    } catch (error) {
+      setStatus(error.message || "Ma tmsahch. T2ekdi mn code.");
     }
   };
 

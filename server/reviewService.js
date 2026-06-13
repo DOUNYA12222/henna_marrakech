@@ -58,9 +58,7 @@ export async function addReview(payload) {
 
 export async function deleteReview(id, credential = {}) {
   const reviewId = Array.isArray(id) ? id[0] : String(id || "");
-  const adminCode = (process.env.ADMIN_REVIEW_CODE || "").trim();
-  const submittedAdminCode = String(credential.adminCode || "").trim();
-  const canAdminDelete = adminCode && submittedAdminCode && secureCompare(adminCode, submittedAdminCode);
+  const canAdminDelete = isReviewAdmin(credential.adminCode);
 
   if (canAdminDelete) {
     if (hasSupabase()) {
@@ -90,6 +88,21 @@ export async function deleteReview(id, credential = {}) {
   return { ok: true };
 }
 
+export async function deleteReviewAsAdmin(id, adminCode) {
+  const reviewId = Array.isArray(id) ? id[0] : String(id || "");
+  if (!reviewId) return { ok: false, status: 400, message: "Review id is missing." };
+  if (!isReviewAdmin(adminCode)) return { ok: false, status: 403, message: "Admin code is invalid." };
+
+  if (hasSupabase()) {
+    const deleted = await deleteStoredReview(reviewId);
+    return { ok: deleted, status: deleted ? 200 : 500, message: deleted ? "" : "Supabase delete failed." };
+  }
+
+  const reviews = await readReviews();
+  await writeReviews(reviews.filter((item) => item.id !== reviewId));
+  return { ok: true };
+}
+
 async function readReviews() {
   if (hasSupabase()) {
     const stored = await listStoredReviews();
@@ -116,6 +129,13 @@ function publicReview(review) {
 
 function hashSecret(value) {
   return createHash("sha256").update(String(value)).digest("hex");
+}
+
+function isReviewAdmin(code = "") {
+  const adminCode = (process.env.ADMIN_REVIEW_CODE || process.env.ADMIN_CODE || "").trim();
+  const submittedCode = String(code || "").trim();
+  if (!adminCode || !submittedCode) return false;
+  return secureCompare(adminCode, submittedCode);
 }
 
 function secureCompare(first, second) {
