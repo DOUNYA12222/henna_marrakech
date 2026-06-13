@@ -367,6 +367,13 @@ function Navbar({ t, lang, setLang }) {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   const navigate = (event, id) => {
     event.preventDefault();
     setActiveSection(id);
@@ -412,18 +419,27 @@ function Navbar({ t, lang, setLang }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -14 }}
-            className="fixed inset-0 z-[70] overflow-y-auto bg-[#06111A] px-8 pb-28 pt-7 text-cream shadow-2xl lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[90] grid h-[100dvh] place-items-center bg-night/88 p-4 text-cream backdrop-blur-xl lg:hidden"
           >
-            <div className="flex items-center justify-between">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 22 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 22 }}
+              transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
+              className="relative flex h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-[2rem] border border-gold/30 bg-[#06111A] shadow-[0_28px_90px_rgba(0,0,0,.65)]"
+            >
+            <div className="absolute inset-0 opacity-30 moroccan-mask" />
+            <div className="relative flex items-center justify-between border-b border-gold/15 px-6 py-5">
               <span className="font-display text-2xl font-bold">henna_<span className="text-gold">marrakech</span></span>
               <button className="dynamic-button grid h-11 w-11 place-items-center rounded-full border border-gold/30 bg-night/70 text-gold" onClick={() => setOpen(false)} aria-label="Close menu">
                 <X size={20} />
               </button>
             </div>
-            <div className="mt-10 grid gap-4">
+            <div className="relative flex-1 overflow-y-auto px-7 py-7">
+              <div className="grid gap-4">
               {links.map(([id, label]) => (
                 <a
                   key={id}
@@ -434,6 +450,7 @@ function Navbar({ t, lang, setLang }) {
                   {label}
                 </a>
               ))}
+              </div>
               <div className="mt-8 border-t border-gold/20 pt-6">
                 <p className="text-lg font-bold text-gold">Riad Laârous</p>
                 <p className="mt-3 text-base font-semibold text-cream/80">Bab Doukkala, Marrakech</p>
@@ -449,14 +466,7 @@ function Navbar({ t, lang, setLang }) {
                 </div>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="dynamic-button fixed bottom-6 left-1/2 z-[75] inline-flex -translate-x-1/2 items-center overflow-hidden rounded-full border border-gold/50 bg-night text-cream shadow-glow"
-            >
-              <span className="grid h-16 w-16 place-items-center rounded-full bg-gold text-night"><X size={24} /></span>
-              <span className="px-7 text-lg font-bold">Menu</span>
-            </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -767,8 +777,24 @@ function Gallery({ t, settings }) {
   );
 }
 
-function Pricing({ t, settings }) {
-  const pricing = settings.pricing.length ? settings.pricing : t.pricing;
+function localizePricing(adminPricing, translatedPricing, lang) {
+  const isArabic = lang === "ar";
+  return translatedPricing.map((translatedPlan, index) => {
+    const adminPlan = adminPricing[index] || {};
+    const rawPrice = adminPlan.price || translatedPlan.price;
+    const price = isArabic
+      ? rawPrice.replace(/\bDHS\b/gi, "درهم").replace(/^درهم\s*([0-9-]+)/, "$1 درهم")
+      : rawPrice;
+
+    return {
+      ...translatedPlan,
+      price
+    };
+  });
+}
+
+function Pricing({ t, settings, lang }) {
+  const pricing = localizePricing(settings.pricing, t.pricing, lang);
   return (
     <section id="pricing" className="relative overflow-hidden bg-luxury px-4 py-24 md:px-8 text-night">
       <div className="absolute inset-0 moroccan-mask opacity-15" />
@@ -874,7 +900,10 @@ function Testimonials({ t }) {
     try {
       const response = await fetch(apiEndpoint(`/api/reviews/${reviewId}`), {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(deleteKey ? { "x-delete-key": deleteKey } : { "x-admin-code": adminCode })
+        },
         body: JSON.stringify(deleteKey ? { deleteKey } : { adminCode })
       });
       if (!response.ok) throw new Error("Delete failed");
@@ -1197,7 +1226,7 @@ function AdminPanel({ settings, setSettings }) {
     try {
       const response = await fetch(apiEndpoint(`/api/reviews/${id}`), {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-admin-code": adminCode },
         body: JSON.stringify({ adminCode })
       });
       if (!response.ok) throw new Error("delete failed");
@@ -1393,7 +1422,7 @@ export default function App() {
         <Hero t={t} settings={settings} />
         <DesignChoice t={t} settings={settings} />
         <Gallery t={t} settings={settings} />
-        <Pricing t={t} settings={settings} />
+        <Pricing t={t} settings={settings} lang={lang} />
         <Testimonials t={t} />
         <LocalSeoSection t={t} />
         <SocialSection t={t} settings={settings} />

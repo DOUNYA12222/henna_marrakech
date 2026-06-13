@@ -55,8 +55,9 @@ export async function addReview(payload) {
 }
 
 export async function deleteReview(id, credential = {}) {
+  const reviewId = Array.isArray(id) ? id[0] : String(id || "");
   const reviews = await readReviews();
-  const review = reviews.find((item) => item.id === id);
+  const review = reviews.find((item) => item.id === reviewId);
   if (!review) return { ok: false, status: 404 };
 
   const adminCode = process.env.ADMIN_REVIEW_CODE || "";
@@ -66,9 +67,9 @@ export async function deleteReview(id, credential = {}) {
   if (!canAdminDelete && !canClientDelete) return { ok: false, status: 403 };
 
   if (hasSupabase()) {
-    await deleteStoredReview(id);
+    await deleteStoredReview(reviewId);
   } else {
-    await writeReviews(reviews.filter((item) => item.id !== id));
+    await writeReviews(reviews.filter((item) => item.id !== reviewId));
   }
   return { ok: true };
 }
