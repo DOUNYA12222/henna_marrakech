@@ -58,18 +58,32 @@ export async function addReview(payload) {
 
 export async function deleteReview(id, credential = {}) {
   const reviewId = Array.isArray(id) ? id[0] : String(id || "");
+  const adminCode = (process.env.ADMIN_REVIEW_CODE || "").trim();
+  const submittedAdminCode = String(credential.adminCode || "").trim();
+  const canAdminDelete = adminCode && submittedAdminCode && secureCompare(adminCode, submittedAdminCode);
+
+  if (canAdminDelete) {
+    if (hasSupabase()) {
+      const deleted = await deleteStoredReview(reviewId);
+      return { ok: deleted, status: deleted ? 200 : 500 };
+    }
+    const reviews = await readReviews();
+    await writeReviews(reviews.filter((item) => item.id !== reviewId));
+    return { ok: true };
+  }
+
   const reviews = await readReviews();
   const review = reviews.find((item) => item.id === reviewId);
   if (!review) return { ok: false, status: 404 };
 
-  const adminCode = process.env.ADMIN_REVIEW_CODE || "";
-  const canAdminDelete = adminCode && credential.adminCode && secureCompare(adminCode, credential.adminCode);
-  const canClientDelete = review.deleteHash && credential.deleteKey && secureCompare(review.deleteHash, hashSecret(credential.deleteKey));
+  const submittedDeleteKey = String(credential.deleteKey || "").trim();
+  const canClientDelete = review.deleteHash && submittedDeleteKey && secureCompare(review.deleteHash, hashSecret(submittedDeleteKey));
 
-  if (!canAdminDelete && !canClientDelete) return { ok: false, status: 403 };
+  if (!canClientDelete) return { ok: false, status: 403 };
 
   if (hasSupabase()) {
-    await deleteStoredReview(reviewId);
+    const deleted = await deleteStoredReview(reviewId);
+    if (!deleted) return { ok: false, status: 500 };
   } else {
     await writeReviews(reviews.filter((item) => item.id !== reviewId));
   }

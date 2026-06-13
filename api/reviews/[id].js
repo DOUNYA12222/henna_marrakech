@@ -24,7 +24,12 @@ export default async function handler(request, response) {
 
   const result = await deleteReview(request.query.id, readPayload(request));
   if (!result.ok) {
-    return response.status(result.status || 500).json({ ok: false, message: "Review could not be deleted." });
+    return response.status(result.status || 500).json({
+      ok: false,
+      message: result.status === 403
+        ? "Admin code or delete key is invalid."
+        : "Review could not be deleted."
+    });
   }
 
   return response.status(200).json({ ok: true });
