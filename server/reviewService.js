@@ -19,11 +19,11 @@ export function validateReview(payload = {}) {
 
 export function allowReviewSubmission(ip = "unknown") {
   const now = Date.now();
-  const windowMs = 30 * 60 * 1000;
+  const windowMs = 10 * 60 * 1000;
   const recent = (reviewSubmissions.get(ip) || []).filter((time) => now - time < windowMs);
   recent.push(now);
   reviewSubmissions.set(ip, recent);
-  return recent.length <= 3;
+  return recent.length <= 20;
 }
 
 export async function listReviews() {
