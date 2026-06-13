@@ -81,8 +81,15 @@ app.post("/api/reviews", async (request, response) => {
   try {
     const review = await addReview(request.body);
     response.status(201).json({ ok: true, review });
-  } catch {
-    response.status(500).json({ ok: false, message: "Review could not be saved." });
+  } catch (error) {
+    console.error(error);
+    const isSupabaseError = String(error?.message || "").includes("Supabase");
+    response.status(500).json({
+      ok: false,
+      message: isSupabaseError
+        ? "Supabase settings need checking in Vercel."
+        : "Review could not be saved."
+    });
   }
 });
 

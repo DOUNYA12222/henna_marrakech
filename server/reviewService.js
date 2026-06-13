@@ -48,6 +48,8 @@ export async function addReview(payload) {
   reviews.unshift(review);
   if (hasSupabase()) {
     await insertStoredReview(review);
+  } else if (process.env.VERCEL) {
+    throw new Error("Supabase is not configured for review storage.");
   } else {
     await writeReviews(reviews.slice(0, 100));
   }

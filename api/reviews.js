@@ -54,7 +54,14 @@ export default async function handler(request, response) {
   try {
     const review = await addReview(payload);
     return response.status(201).json({ ok: true, review });
-  } catch {
-    return response.status(500).json({ ok: false, message: "Review could not be saved." });
+  } catch (error) {
+    console.error(error);
+    const isSupabaseError = String(error?.message || "").includes("Supabase");
+    return response.status(500).json({
+      ok: false,
+      message: isSupabaseError
+        ? "Supabase settings need checking in Vercel."
+        : "Review could not be saved."
+    });
   }
 }

@@ -2,7 +2,7 @@ const supabaseUrl = (process.env.SUPABASE_URL || "").replace(/\/$/, "");
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || "";
 
 export function hasSupabase() {
-  return Boolean(supabaseUrl && supabaseKey);
+  return Boolean(supabaseUrl && supabaseKey && /^https:\/\/.+\.supabase\.co$/.test(supabaseUrl));
 }
 
 export async function ensureSupabaseTables() {
@@ -69,7 +69,11 @@ export async function insertStoredReview(review) {
       created_at: review.createdAt
     }])
   });
-  return response.ok;
+  if (!response.ok) {
+    const message = await response.text().catch(() => "");
+    throw new Error(`Supabase review insert failed: ${response.status} ${message}`);
+  }
+  return true;
 }
 
 export async function deleteStoredReview(id) {
