@@ -93,6 +93,14 @@ app.post("/api/reviews", async (request, response) => {
   }
 });
 
+app.delete("/api/reviews", async (request, response) => {
+  const result = await deleteReview(request.body?.id, request.body || {});
+  if (!result.ok) {
+    return response.status(result.status || 500).json({ ok: false, message: "Review could not be deleted." });
+  }
+  response.json({ ok: true });
+});
+
 app.delete("/api/reviews/:id", async (request, response) => {
   const result = await deleteReview(request.params.id, request.body || {});
   if (!result.ok) {

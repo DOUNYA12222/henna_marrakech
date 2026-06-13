@@ -903,13 +903,13 @@ function Testimonials({ t }) {
 
     setStatus("idle");
     try {
-      const response = await fetch(apiEndpoint(`/api/reviews/${reviewId}`), {
+      const response = await fetch(apiEndpoint("/api/reviews"), {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           ...(deleteKey ? { "x-delete-key": deleteKey } : { "x-admin-code": adminCode })
         },
-        body: JSON.stringify(deleteKey ? { deleteKey } : { adminCode })
+        body: JSON.stringify(deleteKey ? { id: reviewId, deleteKey } : { id: reviewId, adminCode })
       });
       if (!response.ok) throw new Error("Delete failed");
       setReviews((items) => items.filter((item) => item.id !== reviewId));
@@ -1229,10 +1229,10 @@ function AdminPanel({ settings, setSettings }) {
   const deleteReviewAsAdmin = async (id) => {
     setStatus("Deleting...");
     try {
-      const response = await fetch(apiEndpoint(`/api/reviews/${id}`), {
+      const response = await fetch(apiEndpoint("/api/reviews"), {
         method: "DELETE",
         headers: { "Content-Type": "application/json", "x-admin-code": adminCode },
-        body: JSON.stringify({ adminCode })
+        body: JSON.stringify({ id, adminCode })
       });
       if (!response.ok) throw new Error("delete failed");
       loadReviews();

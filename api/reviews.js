@@ -27,8 +27,9 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "DELETE") {
-    const id = String(request.query?.id || request.url.split("/").pop() || "");
-    const result = await deleteReview(id, readPayload(request));
+    const payload = readPayload(request);
+    const id = String(request.query?.id || payload.id || request.url.split("/").pop() || "");
+    const result = await deleteReview(id, payload);
     if (!result.ok) {
       return response.status(result.status || 500).json({
         ok: false,
